@@ -88,7 +88,7 @@ namespace reference_number
                 string result = data + check;
                 if (result == number)
                 {
-                    Console.WriteLine($"\nValid reference number.\n\nReference data: {data}\nChecksum: {check}");
+                    Console.WriteLine($"\nValid reference number.\n\nReference data: {data}\nCheck digit: {check}");
                 }
                 else
                 {
