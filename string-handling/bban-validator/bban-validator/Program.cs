@@ -41,43 +41,82 @@ namespace bban_validator
                 sampo
             };
 
-
-
-            Console.Write("Give BBAN account number: ");
-            string input = Console.ReadLine();
-
-            try
+            Console.WriteLine("\nBBAN-VALIDATOR\n");
+    
+            string MachineFormat()
             {
-                if (input.StartsWith("5"))
+                Console.Write("Give BBAN account number: ");
+                string input = Console.ReadLine();
+
+                try
                 {
-                    string bban = input.Replace("-", "").Insert(7, "@");
-                    string[] split = bban.Split('@'); //splits the 'bban' string at '@'
-                    string result = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
-                    Console.WriteLine(result);
+                    if (input.StartsWith("5"))
+                    {
+                        string bban = input.Replace("-", "").Insert(7, "@");
+                        string[] split = bban.Split('@'); //splits the 'bban' string at '@'
+                        string result = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
+                        //Console.WriteLine(result);
+                        return result;
+                    }
+                    else if (input.StartsWith("4"))
+                    {
+                        string bban = input.Replace("-", "").Insert(7, "@");
+                        string[] split = bban.Split('@'); //splits the 'bban' string at '@'
+                        string result = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
+                        //Console.WriteLine(result);
+                        return result;
+                    }
+                    else
+                    {
+                        string[] split = input.Split('-'); //splits the 'input' string from '-'
+                        string bban = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
+                        //Console.WriteLine(bban);
+                        return bban;
+                    }
                 }
-                else if (input.StartsWith("4"))
+                catch (Exception e)
                 {
-                    string bban = input.Replace("-", "").Insert(7, "@");
-                    string[] split = bban.Split('@'); //splits the 'bban' string at '@'
-                    string result = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
-                    Console.WriteLine(result);
-                }
-                else
-                {
-                    string[] split = input.Split('-'); //splits the 'input' string from '-'
-                    string bban = split[0].PadRight(14 - split[1].Length, '0') + split[1]; //adds zeroes until string length is 14 chars = converts it to machine language
-                    Console.WriteLine(bban);
+                    return $"\n{e.Message}";
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine($"\n{e.Message}");
-            }
-            
 
+            void Validator()
+            {
+                try
+                {
+                    string bban = MachineFormat();
+                    int a = 1;
+                    int total = 0;
+
+                    for (int i = bban.Length - 1; i >= 0; i--)
+                    {
+                        switch (a)
+                        {
+                            case 1:
+                            {
+                                total += int.Parse(bban[i].ToString()) * 2;
+                                a = 2;
+                                break;
+                            }
+                            case 2:
+                            {
+                                total += int.Parse(bban[i].ToString()) * 1;
+                                a = 1;
+                                break;
+                            }
+                        }
+                    }
+                    int check = (total / 10 + 1) * 10 - total;
+                    Console.WriteLine($"BBAN = {bban} {total} Check digit: {check}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }  
+            }
+
+            Validator();
             Console.ReadLine();
-
-            
             
 
         }
