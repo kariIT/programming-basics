@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ssn_validator
 {
@@ -20,64 +22,24 @@ namespace ssn_validator
             int mm = int.Parse(split[1]);
             int yy = int.Parse(split[2]);
 
-
-            void CheckDD(int x)
+            void DateCheck(int x, int y, int a)
             {
-                if (Enumerable.Range(1, 32).Contains(x))
+                if (Enumerable.Range(1, 31).Contains(x))
                 {
                     Console.Write(x.ToString("00"));
                 }
                 else
                 {
-                    Console.WriteLine("Invalid SSN.(dd)");
-
+                    End();
                 }
-            }
-            void CheckMM(int x)
-            {
-                if (Enumerable.Range(1, 13).Contains(x))
+                
+                if (Enumerable.Range(1, 12).Contains(y))
                 {
                     Console.Write(x.ToString("00"));
                 }
                 else
                 {
-                    Console.WriteLine("Invalid SSN.(mm)");
-
-                }
-            }
-            void CheckYY(int x)
-            {
-                if (Enumerable.Range(0, 100).Contains(x))
-                {
-                    Console.Write(x.ToString("00"));
-                }
-                else
-                {
-                    Console.WriteLine("Invalid SSN.(yy)");
-
-                }
-            }
-
-            void Check(int x, int y, int a)
-            {
-                if (Enumerable.Range(1, 32).Contains(x))
-                {
-                    Console.Write(x.ToString("00"));
-                }
-                else
-                {
-                    Console.WriteLine("Invalid SSN.(yy)");
-
-                }
-
-                if (Enumerable.Range(1, 13).Contains(y))
-                {
-                    Console.Write(x.ToString("00"));
-                }
-                else
-                {
-                    Console.WriteLine("Invalid SSN.(yy)");
-
+                    End();
                 }
 
                 if (Enumerable.Range(0, 100).Contains(a))
@@ -86,23 +48,33 @@ namespace ssn_validator
                 }
                 else
                 {
-                    Console.WriteLine("Invalid SSN.(yy)");
-
+                    End();
                 }
-            }
+            }//checks that ssn date is valid
 
-            //CheckDD(dd);
-            //CheckMM(mm);
-            //CheckYY(yy);
-
-            Check(dd, mm, yy);
-
-
+            DateCheck(dd, mm, yy); 
             string vssn = $"-{split[3]}"; //vssn = verified social security number
 
+            void Create()
+            {
+
+            }
+
             Console.WriteLine(vssn);
+
             Console.ReadLine();
 
+        }
+
+        static void End()
+        {
+            Console.Clear();
+
+            Console.WriteLine("Invalid SSN.\n\nPress <Enter> to continue..\n");
+            Console.ReadLine();
+            
+            Console.Clear();
+            Program.Main();
         }
     }
 }
